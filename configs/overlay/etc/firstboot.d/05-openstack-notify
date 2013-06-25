@@ -1,0 +1,17 @@
+#!/bin/bash
+##
+# Notification of First Boot Jobs
+
+set -eu
+
+start() {
+	clear
+	echo "" > /dev/tty1
+	echo "XenServer Firstboot configuration beginning." > /dev/tty1
+	echo "The Storage Volumes are now being set up." > /dev/tty1
+	echo "The server will be rebooted once this has completed..." > /dev/tty1
+}
+
+case $1 in
+    start)  start ;;
+esac	

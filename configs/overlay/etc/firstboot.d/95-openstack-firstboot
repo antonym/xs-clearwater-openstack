@@ -1,0 +1,57 @@
+#!/bin/bash
+##
+# Run openstack specific firstboot tasks
+
+set -eu
+
+. ${XENSOURCE_INVENTORY}
+
+CONFIGURATION="${FIRSTBOOT_DATA_DIR}/default-storage.conf"
+UPGRADE="false"
+[ -r ${FIRSTBOOT_DATA_DIR}/host.conf ] && . ${FIRSTBOOT_DATA_DIR}/host.conf
+
+start() {
+    [ "$UPGRADE" = true ] && return 0
+    if [ -e ${CONFIGURATION} ]; then
+        source ${CONFIGURATION}
+        SR=$($XE sr-list type=$TYPE params=uuid --minimal | cut -f1 -d,)
+	HOSTID=$($XE host-list --minimal)
+    fi
+
+	# create /mnt symlink to reside in SR-REPO for openstack code
+	rm -rf /mnt
+	mkdir /var/run/sr-mount/$SR/mnt
+	ln -s /var/run/sr-mount/$SR/mnt /mnt
+
+        # create /images symlink to reside in SR-REPO for migrations
+        rm -rf /images
+        mkdir /var/run/sr-mount/$SR/images
+        ln -s /var/run/sr-mount/$SR/images /images
+
+        # create iso sr 
+        mkdir /var/run/sr-mount/$SR/iso
+        xe sr-create name-label="Local ISO SR" type=iso device-config:legacy_mode=true device-config:location=/var/run/sr-mount/$SR/iso content-type=iso
+        ISOSR=`xe sr-list name-label="Local ISO SR" --minimal`
+        xe sr-param-set uuid=$ISOSR other-config:i18n-key=local-storage-iso
+
+	# Activate host metrics
+	xe host-param-add param-name=other-config uuid=$HOSTID rrd_update_interval=2
+
+	# install Citrix hotfixes
+        cd /root/hotfixes
+        for i in `ls /root/hotfixes`
+        do
+                PATCH_UUID=`xe patch-upload file-name=$i`
+                xe patch-apply uuid=$PATCH_UUID host-uuid=$HOSTID
+                rm $i
+        done
+        /etc/init.d/xapi restart
+
+        # cleanup 
+	rm -rf /root/hotfixes
+	rm -f /etc/firstboot.d/95-openstack-firstboot
+}
+
+case $1 in
+    start)  start ;;
+esac	
