@@ -11,6 +11,8 @@ hotfixes (XS62E001.xsupdate) updates into configs/overlay/root/hotfixes and they
 firstboot automatically.  See the configs/overlay/etc/firstboot.d/95-openstack-firstboot for more info
 on what starts at boot.
 
+Change any references to http://kickstart/... to the your appropriate URL.
+
 Direct download here:
 
 http://downloadns.citrix.com.edgesuite.net/akdlm/7281/XenServer-6.2.0-install-cd.iso
