@@ -39,10 +39,11 @@ confirm_host
 # sync time
 echo Syncing time...
 ntpdate pool.ntp.org > /dev/null
+hwclock -w
 
 # base host configs, /root overlay
 echo "Obtaining overlay..."
-wget http://kickstart/xenserver/xs-clearwater/configs/overlay.tgz -O /overlay.tgz > /dev/null
+wget http://kickstart/xenserver/xs-clearwater-openstack/configs/overlay.tgz -O /overlay.tgz > /dev/null
 
 # Validate overlay was obtained
 if [ -f /overlay.tgz ]
