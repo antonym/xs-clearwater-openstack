@@ -1,5 +1,5 @@
 #!/bin/bash -x
-wget http://kickstart/xenserver/xs-clearwater-openstack/configs/clearwater-post.sh -O /tmp/root/tmp/clearwater-post.sh
+wget http://kickstart/xenserver/configs/clearwater-post.sh -O /tmp/root/tmp/clearwater-post.sh
 
 exec < /dev/tty6 > /dev/tty6 2>/dev/tty6
 chmod 755 /tmp/root/tmp/clearwater-post.sh
