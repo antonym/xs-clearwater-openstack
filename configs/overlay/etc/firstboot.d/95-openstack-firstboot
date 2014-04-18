@@ -34,22 +34,39 @@ start() {
         ISOSR=`xe sr-list name-label="Local ISO SR" --minimal`
         xe sr-param-set uuid=$ISOSR other-config:i18n-key=local-storage-iso
 
+	# Prepare for AMI type images
+	LOCALPATH="/var/run/sr-mount/$SR/os-guest-kernels"
+	mkdir -p "$LOCALPATH"
+	ln -s "$LOCALPATH" /boot/guest
+
 	# Activate host metrics
 	xe host-param-add param-name=other-config uuid=$HOSTID rrd_update_interval=2
 
-	# install Citrix hotfixes
-        cd /root/hotfixes
-        for i in `ls /root/hotfixes`
-        do
-                PATCH_UUID=`xe patch-upload file-name=$i`
-                xe patch-apply uuid=$PATCH_UUID host-uuid=$HOSTID
-                rm $i
-        done
-        /etc/init.d/xapi restart
+	# install the XenAPI plug-ins
+	NOVA_ZIPBALL=$(mktemp)
+	NOVA_SOURCES=$(mktemp -d)
+	wget -qO "$NOVA_ZIPBALL" https://github.com/openstack/nova/archive/master.zip
+	unzip -q "$NOVA_ZIPBALL" -d "$NOVA_SOURCES"
+	PLUGINPATH=$(find $NOVA_SOURCES -path '*/xapi.d/plugins' -type d -print)
+	cp $PLUGINPATH/* /etc/xapi.d/plugins/
+
+	# And VIF Isolation Rules
+	VIFPATH=$(find $NOVA_SOURCES -path '*/xenserver/networking' -type d -print)
+	cp $VIFPATH/etc/init.d/* /etc/init.d/
+	cp $VIFPATH/etc/sysconfig/* /etc/sysconfig/
+	cp $VIFPATH/etc/udev/rules.d/*  /etc/udev/rules.d/
+	cp $VIFPATH/etc/xensource/scripts/* /etc/xensource/scripts/
+	chkconfig host-rules on
+	/etc/init.d/host-rules start
 
         # cleanup 
-	rm -rf /root/hotfixes
+	rm "$NOVA_ZIPBALL"
+	rm -rf "$NOVA_SOURCES"
 	rm -f /etc/firstboot.d/95-openstack-firstboot
+	rm -f /etc/firstboot.d/05-openstack-notify
+
+	# Install XenServer Patch
+	/root/hotfixes/apply-patches.sh
 }
 
 case $1 in
