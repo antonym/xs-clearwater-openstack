@@ -37,6 +37,7 @@ get_host_info
 confirm_host
 
 # sync time
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 echo Syncing time...
 ntpdate pool.ntp.org > /dev/null
 hwclock -w
