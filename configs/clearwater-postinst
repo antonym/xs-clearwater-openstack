@@ -8,9 +8,6 @@ mount -o bind /proc /tmp/root/proc
 
 clear
 
-dd if=/dev/urandom count=40 > /tmp/root/tmp/pass1
-dd if=/dev/urandom count=40 > /tmp/root/tmp/pass2
-
 cat << ! >> /tmp/root/tmp/post.sh
 /usr/bin/chvt 6
 
