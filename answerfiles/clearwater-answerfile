@@ -8,4 +8,5 @@
                 <post-install-script type="url">http://kickstart/xenserver/configs/clearwater-postinst</post-install-script>
                 <admin-interface name="eth0" proto="dhcp" />
                 <timezone>Asia/Shanghai</timezone>
+		<ntp-server>pool.ntp.org</ntp-server>
         </installation>
