@@ -6,6 +6,7 @@ set -eu
 
 start() {
   # Install XenServer Patch
+  rm -f /etc/firstboot.d/data/firstboot_in_progress
   /root/hotfixes/apply-patches.sh
 }
 
