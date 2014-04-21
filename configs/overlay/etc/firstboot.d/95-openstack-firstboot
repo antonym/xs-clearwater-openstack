@@ -61,7 +61,7 @@ start() {
 
 	# install console logrotate script
 	LOG_PATH=$(find $NOVA_SOURCES -path '*/tools/xenserver' -type d     -print)
-	cp $LOG_PATH/rotate_xen_guest_logs.sh /etc/cron.daily/ && mkdir -p /var/log/xen/guest
+	cp $LOG_PATH/rotate_xen_guest_logs.sh /root/ && echo "* * * * * /root/rotate_xen_guest_logs.sh" >> /etc/crontab && mkdir -p /var/log/xen/guest
 
         # cleanup 
 	rm "$NOVA_ZIPBALL"
