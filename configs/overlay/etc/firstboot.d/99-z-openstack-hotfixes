@@ -1,0 +1,14 @@
+#!/bin/bash
+##
+# Run reboot the server to complete install
+
+set -eu
+
+start() {
+  # Install XenServer Patch
+  /root/hotfixes/apply-patches.sh
+}
+
+case $1 in
+    start)  start ;;
+esac
