@@ -5,6 +5,8 @@
 set -eu
 
 start() {
+  # self clean
+  rm /etc/firstboot.d/99-z-openstack-hotfixes
   /root/hotfixes/apply-patches.sh
 }
 
