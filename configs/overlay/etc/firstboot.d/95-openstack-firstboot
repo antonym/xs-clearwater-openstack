@@ -68,7 +68,6 @@ start() {
 	rm -rf "$NOVA_SOURCES"
 	rm -f /etc/firstboot.d/95-openstack-firstboot
 	rm -f /etc/firstboot.d/05-openstack-notify
-	rm -f /etc/firstboot.d/99-remove-firstboot-flag
 }
 
 case $1 in
