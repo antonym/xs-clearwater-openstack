@@ -6,7 +6,8 @@ set -eu
 
 start() {
   # self clean
-  rm /etc/firstboot.d/99-z-openstack-hotfixes
+  rm -f /etc/firstboot.d/data/firstboot_in_progress
+  rm -f /etc/firstboot.d/99-z-openstack-hotfixes
   /root/hotfixes/apply-patches.sh
 }
 
