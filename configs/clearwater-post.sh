@@ -37,12 +37,14 @@ get_host_info
 confirm_host
 
 # sync time
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 echo Syncing time...
 ntpdate pool.ntp.org > /dev/null
+hwclock -w
 
 # base host configs, /root overlay
 echo "Obtaining overlay..."
-wget http://kickstart/xenserver/xs-clearwater/configs/overlay.tgz -O /overlay.tgz > /dev/null
+wget http://kickstart/xenserver/configs/overlay.tgz -O /overlay.tgz > /dev/null
 
 # Validate overlay was obtained
 if [ -f /overlay.tgz ]

@@ -4,8 +4,9 @@
 		<network-backend>openvswitch</network-backend>
                 <keymap>us</keymap>
                 <root-password>chAng3th15P@ssw0rD</root-password>
-                <source type="url">http://kickstart/xenserver/xs-clearwater/citrix/clearwater</source>
-                <post-install-script type="url">http://kickstart/xenserver/xs-clearwater/configs/clearwater-postinst</post-install-script>
+                <source type="url">http://kickstart/xenserver/citrix/clearwater</source>
+                <post-install-script type="url">http://kickstart/xenserver/configs/clearwater-postinst</post-install-script>
                 <admin-interface name="eth0" proto="dhcp" />
-                <timezone>Central</timezone>
+                <timezone>Asia/Shanghai</timezone>
+		<ntp-server>pool.ntp.org</ntp-server>
         </installation>

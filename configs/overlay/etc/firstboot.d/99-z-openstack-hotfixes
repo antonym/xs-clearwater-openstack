@@ -1,0 +1,16 @@
+#!/bin/bash
+##
+# Install XenServer Patch
+
+set -eu
+
+start() {
+  # self clean
+  rm -f /etc/firstboot.d/data/firstboot_in_progress
+  rm -f /etc/firstboot.d/99-z-openstack-hotfixes
+  /root/hotfixes/apply-patches.sh
+}
+
+case $1 in
+    start)  start ;;
+esac

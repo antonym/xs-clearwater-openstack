@@ -6,9 +6,13 @@ This installer can be used to set up a server with support for XenAPI support in
 
 #### Getting Started
 
-Drop the contents of the XenServer 6.2 Clearwater ISO into citrix/clearwater.  You can place the latest 
-hotfixes (XS62E001.xsupdate) updates into configs/overlay/root/hotfixes and they will be installed on
-firstboot automatically.  See the configs/overlay/etc/firstboot.d/95-openstack-firstboot for more info
+1. `wget https://github.com/bloodhero/xs-clearwater-openstack/archive/master.zip`
+2. `unzip master.zip`
+3. `mv xs-clearwater-openstack /path/to/wwwroot/xenserver/`
+4. `mount -o loop /path/to/XenServer6.2.iso /path/to/wwwroot/xenserver/citrix/clearwater`
+5. Download the hotfixes file to `/path/to/xenserver/configs/overlay/root/hotfixes` and add the hotfixes name to manifest file. they will be installed on
+firstboot automatically. 
+6. See the configs/overlay/etc/firstboot.d/95-openstack-firstboot for more info
 on what starts at boot.
 
 Change any references to http://kickstart/... to the your appropriate URL.

@@ -1,5 +1,5 @@
 #!/bin/bash -x
-wget http://kickstart/xenserver/xs-clearwater/configs/clearwater-post.sh -O /tmp/root/tmp/clearwater-post.sh
+wget http://kickstart/xenserver/configs/clearwater-post.sh -O /tmp/root/tmp/clearwater-post.sh
 
 exec < /dev/tty6 > /dev/tty6 2>/dev/tty6
 chmod 755 /tmp/root/tmp/clearwater-post.sh
@@ -7,9 +7,6 @@ chmod 755 /tmp/root/tmp/clearwater-post.sh
 mount -o bind /proc /tmp/root/proc
 
 clear
-
-dd if=/dev/urandom count=40 > /tmp/root/tmp/pass1
-dd if=/dev/urandom count=40 > /tmp/root/tmp/pass2
 
 cat << ! >> /tmp/root/tmp/post.sh
 /usr/bin/chvt 6
